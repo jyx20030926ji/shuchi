@@ -3,6 +3,7 @@ package com.testvue.testvue.Service.impl;
 
 import com.testvue.testvue.Service.UserService;
 import com.testvue.testvue.Utils.JwtUtils;
+import com.testvue.testvue.basecont.BaseCont;
 import com.testvue.testvue.enity.User;
 import com.testvue.testvue.enity.dto.LoginDTO;
 import com.testvue.testvue.enity.dto.UserRegisterDTO;
@@ -82,6 +83,21 @@ public class UserServiceImpl implements UserService {
 
             throw new AccountNoExistException(CodeMessageMenu.USER_PASSWORD_DISARESS);
         }
+
+    }
+
+    @Override
+    public void update(User user) {
+
+        User user1 = userMapper.selectByAccount(user.getAccount());
+        if(user1!=null)
+        {
+            throw  new AccountNoExistException(CodeMessageMenu.USER_ALREADY_EXIST);
+        }
+
+        user.setId(BaseCont.get().longValue());
+
+        userMapper.update(user);
 
     }
 }

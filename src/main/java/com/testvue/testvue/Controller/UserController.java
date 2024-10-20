@@ -1,7 +1,7 @@
 package com.testvue.testvue.Controller;
 
 import com.testvue.testvue.Service.UserService;
-import com.testvue.testvue.basecont.BaseCont;
+
 import com.testvue.testvue.enity.Result;
 import com.testvue.testvue.enity.User;
 
@@ -63,5 +63,14 @@ public class UserController {
 
 
     }
+    @PutMapping("/admin/users")
+    public Result update(@RequestBody User user)
+    {
+
+        userService.update(user);
+        return Result.success();
+
+    }
+
 
 }

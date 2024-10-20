@@ -18,4 +18,6 @@ public interface UserService {
     String login(LoginDTO loginDTO);
 
     void register(UserRegisterDTO userRegisterDTO);
+
+    void update(User user);
 }

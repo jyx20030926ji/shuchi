@@ -36,7 +36,7 @@ public class MyIntercepyor implements HandlerInterceptor {
 
 
 
-        System.out.print(token);
+
 
 
         if (token == null) {
