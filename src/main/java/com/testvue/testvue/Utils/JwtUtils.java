@@ -3,7 +3,7 @@ package com.testvue.testvue.Utils;
 import io.jsonwebtoken.*;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+
 
 
 import java.util.Date;
