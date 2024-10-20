@@ -1,0 +1,7 @@
+# application.yml
+logging:
+      level:
+        com.testvue.testvue.Mapper: DEBUG
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
