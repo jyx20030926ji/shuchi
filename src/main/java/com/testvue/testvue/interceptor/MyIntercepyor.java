@@ -35,6 +35,16 @@ public class MyIntercepyor implements HandlerInterceptor {
         String token = request.getHeader("authorization");
 
 
+        String requestURI = request.getRequestURI();
+
+        // 排除 Swagger 和 Knife4j 的路径
+        if (requestURI.startsWith("/v2/api-docs") || requestURI.startsWith("/swagger-resources") ||
+                requestURI.startsWith("/doc.html") || requestURI.startsWith("/webjars") ||
+                requestURI.startsWith("/swagger-ui")) {
+            return true;  // 允许访问
+        }
+
+
 
 
 
@@ -56,6 +66,8 @@ public class MyIntercepyor implements HandlerInterceptor {
         {
           System.out.print("------------------------------------------");
         }
+
+
      return true;
     }
 

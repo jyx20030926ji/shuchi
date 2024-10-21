@@ -2,6 +2,15 @@
 logging:
       level:
         com.testvue.testvue.Mapper: DEBUG
+
+        com:
+          github:
+            xiaoymin=DEBUG:
+
+knife4j:
+  enable: true
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+

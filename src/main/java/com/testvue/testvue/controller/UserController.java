@@ -1,4 +1,4 @@
-package com.testvue.testvue.Controller;
+package com.testvue.testvue.controller;
 
 import com.testvue.testvue.Service.UserService;
 
