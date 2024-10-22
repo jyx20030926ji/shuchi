@@ -100,12 +100,17 @@
 		</dependency>
 
 
-
+       <!-- knife4j 相关依赖 美化swagger接口文档-->
 
 		<dependency>
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-spring-boot-starter</artifactId>
-			<version>3.0.3</version>
+            <version>3.0.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
 		</dependency>
 
 	</dependencies>

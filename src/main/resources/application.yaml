@@ -12,5 +12,20 @@ knife4j:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-
+spring:
+  rabbitmq:
+    template:
+      publisher-confirms: true
+      publisher-returns: true
+    password: 123
+    host: 192.168.81.133
+    port: 5672
+    username: root
+    stream:
+      virtual-host: /root
+    listener:
+      simple:
+        acknowledge-mode: manual
+      direct:
+        acknowledge-mode: manual
 
