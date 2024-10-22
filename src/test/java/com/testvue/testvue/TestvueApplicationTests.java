@@ -6,9 +6,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import com.testvue.testvue.consumer.MessageConsumer;
+import com.testvue.testvue.publicher.MessagePublisher;
 import org.junit.jupiter.api.Test;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -16,10 +19,6 @@ import java.time.LocalDateTime;
 
 @SpringBootTest
 class TestvueApplicationTests {
-
-
-
-
 
 
 	@Test
@@ -33,6 +32,26 @@ class TestvueApplicationTests {
 
 
 
+	}
+
+     @Autowired
+	 private MessagePublisher messagePublisher;
+
+
+
+
+
+	@Test
+
+	void coverMessage1()
+	{
+		messagePublisher.sendMessageToQueue10("你好啊queue10");
+	}
+
+	@Test
+	void coverMessage2()
+	{
+		messagePublisher.sendMessageToQueue11("你好啊queue11");
 	}
 
 }

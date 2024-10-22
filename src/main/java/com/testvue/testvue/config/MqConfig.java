@@ -2,6 +2,7 @@ package com.testvue.testvue.config;
 
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -14,8 +15,12 @@ public class MqConfig {
 
     @Bean
     public RabbitTemplate rabbitTemplate(CachingConnectionFactory cachingConnectionFactory) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(cachingConnectionFactory);
-        rabbitTemplate.setMandatory(true);
+
+        //TODO 发送者确认发送到交换机,
+
+         RabbitTemplate rabbitTemplate = new RabbitTemplate(cachingConnectionFactory);
+
+         rabbitTemplate.setMandatory(true);
 
 
 
