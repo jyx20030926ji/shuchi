@@ -1,10 +1,10 @@
 package com.testvue.testvue.Service.impl;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.testvue.testvue.Service.UserService;
 import com.testvue.testvue.Utils.JwtUtils;
 import com.testvue.testvue.basecont.BaseCont;
@@ -30,7 +30,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
+public class UserServiceImpl implements  UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -120,7 +120,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
      */
 
 
-    /*    @Override
+    /*     @Override
         public PageResult<User> pagefind(PageUserDTO pageUserDTO) {
             // 开始分页
             PageHelper.startPage(pageUserDTO.getCurrentPage(),pageUserDTO.getPageSize());
@@ -143,32 +143,34 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
             return pageResult;
         }
-
-     */
-
+   */
 
     @Override
-    public PageResult<User> pagefind1(PageUserDTO pageUserDTO) {
-        // 创建分页对象
-        Page<User> page = new Page<>(pageUserDTO.getCurrentPage(), pageUserDTO.getPageSize());
+    public PageResult<User> pagefind(PageUserDTO pageUserDTO) {
+        // 开始分页
+          Long total=userMapper.usertotal();
 
-        // 创建 LambdaQueryWrapper
-        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+          int currentPage=pageUserDTO.getCurrentPage();
+          pageUserDTO.setCurrentPage((pageUserDTO.getCurrentPage()-1)*pageUserDTO.getPageSize());
+          pageUserDTO.setPageSize(pageUserDTO.getPageSize()*currentPage-1);
 
-        // 添加搜索条件
-        queryWrapper.like(pageUserDTO.getName() != null && !pageUserDTO.getName().isEmpty(), User::getName, pageUserDTO.getName());
-        queryWrapper.like(pageUserDTO.getAccount() != null && !pageUserDTO.getAccount().isEmpty(), User::getAccount, pageUserDTO.getAccount());
 
-        // 执行分页查询
-        Page<User> userPage = this.page(page, queryWrapper);
+        List<User> userList = userMapper.pagefind(pageUserDTO);
 
-        // 构造返回结果
+        // 组装结果
         PageResult<User> pageResult = new PageResult<>();
-        pageResult.setPageList(userPage.getRecords());
-        pageResult.setTotal(userPage.getTotal());
+        pageResult.setTotal(total);
+        pageResult.setPageList(userList);
+
+
+
 
         return pageResult;
     }
+
+
+
+
 
 
     }

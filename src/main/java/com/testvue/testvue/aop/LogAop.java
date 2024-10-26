@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.testvue.testvue.annotation.LogAnnotation;
 import com.testvue.testvue.basecont.BaseCont;
 import com.testvue.testvue.enity.po.LogRecords;
+
 import com.testvue.testvue.mapper.LogOperationMapper;
 import com.testvue.testvue.menu.AopLogMenu;
 import org.aspectj.lang.JoinPoint;
@@ -26,10 +27,16 @@ import java.time.LocalDateTime;
 @Aspect
 @Order(2)
 public class LogAop {
-    @Autowired
-    private  LogOperationMapper logOperationMapper;
+
+
+
     @Autowired
    private  ObjectMapper objectMapper;
+    @Autowired
+    private LogOperationMapper logOperationMapper;
+
+
+
 
     @Pointcut("@annotation(com.testvue.testvue.annotation.LogAnnotation)")
     public void po()
@@ -41,7 +48,7 @@ public class LogAop {
         LogRecords logRecords=new LogRecords();
 
         String params="";
-        Long userId=null;
+         Long userId=null;
 
         MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
 
@@ -72,7 +79,7 @@ public class LogAop {
 
         AopLogMenu aopLogMenu = annotation.aopLogMenu();
 
-           try{userId = BaseCont.get().longValue();   }  //TODO 把登录人的id和注册人操作的id也传上去
+           try{userId = BaseCont.get().longValue(); }  //TODO 把登录人的id和注册人操作的id也传上去
            catch (NullPointerException e){
                System.out.print("有错误");
     }

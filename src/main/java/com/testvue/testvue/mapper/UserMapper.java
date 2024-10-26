@@ -1,6 +1,6 @@
 package com.testvue.testvue.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 import com.github.pagehelper.Page;
 import com.testvue.testvue.annotation.LogAnnotation;
 import com.testvue.testvue.annotation.TimeFiledAnnotation;
@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @Mapper
-public interface UserMapper extends BaseMapper<User> {
+public interface UserMapper  {
 
     @LogAnnotation(operation = "查询全部用户", aopLogMenu = AopLogMenu.LIST)
     @Select("select * from users ")
@@ -52,7 +52,18 @@ public interface UserMapper extends BaseMapper<User> {
     void update(User user);
 
 
-    Page<User> pagefind(PageUserDTO pageUserDTO);
+
+     @LogAnnotation(operation = "分页查询用户信息",aopLogMenu = AopLogMenu.LIST)
+     List<User> pagefind(PageUserDTO pageUserDTO);
+
+
+
+
+     @LogAnnotation(operation = "查询用户总数",aopLogMenu = AopLogMenu.OTHER)
+    @Select("select count(id) from users")
+    Long usertotal();
+
+
 }
 
 

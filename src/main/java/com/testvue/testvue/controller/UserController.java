@@ -98,7 +98,7 @@ public class UserController {
    @GetMapping("/admin/page/users")
     public Result<PageResult> pagefind(@RequestBody PageUserDTO pageUserDTO)
    {
-       PageResult pageResult = userService.pagefind1(pageUserDTO);
+       PageResult pageResult = userService.pagefind(pageUserDTO);
 
        log.info("pagesize:{}",pageUserDTO.getPageSize());
        log.info("currenPage:{}",pageUserDTO.getCurrentPage());

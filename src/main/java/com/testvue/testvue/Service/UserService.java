@@ -1,6 +1,6 @@
 package com.testvue.testvue.Service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
 import com.testvue.testvue.enity.dto.LoginDTO;
 import com.testvue.testvue.enity.dto.PageUserDTO;
 import com.testvue.testvue.enity.dto.UserRegisterDTO;
@@ -10,7 +10,7 @@ import com.testvue.testvue.enity.po.User;
 import java.util.List;
 
 
-public interface UserService extends IService<User> {
+public interface UserService  {
 
 
     List<User> userlist();
@@ -25,7 +25,7 @@ public interface UserService extends IService<User> {
 
     void update(User user);
 
-  //  PageResult<User> pagefind(PageUserDTO pageUserDTO);
+    PageResult<User> pagefind(PageUserDTO pageUserDTO);
 
-    PageResult<User> pagefind1(PageUserDTO pageUserDTO);
+
 }
