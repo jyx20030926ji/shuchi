@@ -1,8 +1,10 @@
 package com.testvue.testvue.Service.impl;
 
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import com.testvue.testvue.Service.UserService;
 import com.testvue.testvue.Utils.JwtUtils;
 import com.testvue.testvue.basecont.BaseCont;
@@ -28,7 +30,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -109,6 +111,8 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+
     /**
      * 分页条件查询 根据姓名和账号名
      * @param pageUserDTO
@@ -116,7 +120,7 @@ public class UserServiceImpl implements UserService {
      */
 
 
-        @Override
+    /*    @Override
         public PageResult<User> pagefind(PageUserDTO pageUserDTO) {
             // 开始分页
             PageHelper.startPage(pageUserDTO.getCurrentPage(),pageUserDTO.getPageSize());
@@ -139,6 +143,33 @@ public class UserServiceImpl implements UserService {
 
             return pageResult;
         }
+
+     */
+
+
+    @Override
+    public PageResult<User> pagefind1(PageUserDTO pageUserDTO) {
+        // 创建分页对象
+        Page<User> page = new Page<>(pageUserDTO.getCurrentPage(), pageUserDTO.getPageSize());
+
+        // 创建 LambdaQueryWrapper
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+
+        // 添加搜索条件
+        queryWrapper.like(pageUserDTO.getName() != null && !pageUserDTO.getName().isEmpty(), User::getName, pageUserDTO.getName());
+        queryWrapper.like(pageUserDTO.getAccount() != null && !pageUserDTO.getAccount().isEmpty(), User::getAccount, pageUserDTO.getAccount());
+
+        // 执行分页查询
+        Page<User> userPage = this.page(page, queryWrapper);
+
+        // 构造返回结果
+        PageResult<User> pageResult = new PageResult<>();
+        pageResult.setPageList(userPage.getRecords());
+        pageResult.setTotal(userPage.getTotal());
+
+        return pageResult;
+    }
+
 
     }
 

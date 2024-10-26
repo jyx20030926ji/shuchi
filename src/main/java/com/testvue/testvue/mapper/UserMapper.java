@@ -1,5 +1,6 @@
 package com.testvue.testvue.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.github.pagehelper.Page;
 import com.testvue.testvue.annotation.LogAnnotation;
 import com.testvue.testvue.annotation.TimeFiledAnnotation;
@@ -15,9 +16,10 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-@Mapper
 
-public interface UserMapper {
+
+@Mapper
+public interface UserMapper extends BaseMapper<User> {
 
     @LogAnnotation(operation = "查询全部用户", aopLogMenu = AopLogMenu.LIST)
     @Select("select * from users ")

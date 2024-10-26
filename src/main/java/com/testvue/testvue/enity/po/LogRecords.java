@@ -1,5 +1,6 @@
 package com.testvue.testvue.enity.po;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 
+@TableName("operationlog")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

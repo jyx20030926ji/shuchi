@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 @Order(2)
 public class LogAop {
     @Autowired
-    private LogOperationMapper logOperationMapper;
+    private  LogOperationMapper logOperationMapper;
     @Autowired
    private  ObjectMapper objectMapper;
 
