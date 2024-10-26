@@ -1,4 +1,4 @@
-package com.testvue.testvue.enity;
+package com.testvue.testvue.enity.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

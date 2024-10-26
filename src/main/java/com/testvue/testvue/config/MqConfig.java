@@ -75,5 +75,5 @@ public class MqConfig {
         return BindingBuilder.bind(queue2()).to(topicExchange()).with("queue11");
     }
 
-
+    //TODO 延时消息的推送和确认
 }

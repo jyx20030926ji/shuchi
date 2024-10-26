@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.testvue.testvue.mapper.LogOperationMapper">
 
-    <insert id="insertOperationLog" parameterType="LogRecords">
+    <insert id="insertOperationLog" parameterType="com.testvue.testvue.enity.po.LogRecords">
 
     insert into operationlog(operation_user_id, operation_method_name, operation_business_type, operation_name, operation_params, operation_time)value (#{operationUserId},#{operationMethodName},#{operationBusinessType},#{operationName},#{operationParams},#{operationTime})
 

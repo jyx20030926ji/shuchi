@@ -1,9 +1,8 @@
 package com.testvue.testvue.Handler;
 
-import com.testvue.testvue.enity.Result;
+import com.testvue.testvue.enity.po.Result;
 import com.testvue.testvue.exception.AccountNoExistException;
 import com.testvue.testvue.exception.DeleteException;
-import com.testvue.testvue.menu.CodeMessageMenu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

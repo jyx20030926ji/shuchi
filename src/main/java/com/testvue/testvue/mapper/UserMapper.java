@@ -1,10 +1,12 @@
 package com.testvue.testvue.mapper;
 
+import com.github.pagehelper.Page;
 import com.testvue.testvue.annotation.LogAnnotation;
 import com.testvue.testvue.annotation.TimeFiledAnnotation;
-import com.testvue.testvue.enity.User;
 
 
+import com.testvue.testvue.enity.dto.PageUserDTO;
+import com.testvue.testvue.enity.po.User;
 import com.testvue.testvue.menu.AopLogMenu;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -39,13 +41,16 @@ public interface UserMapper {
 
     @TimeFiledAnnotation(value = AopLogMenu.INSERT)
     @LogAnnotation(operation = "用户注册",aopLogMenu = AopLogMenu.INSERT)
-    @Insert("insert into users(account,password,create_time) VALUES(#{account},#{password},#{createTime}) ")
+    @Insert("insert into users(account,password,create_time,update_time) VALUES(#{account},#{password},#{createTime},#{updateTime}) ")
     void inserBasicInformation(User user);
 
 
     @LogAnnotation(operation = "修改用户信息",aopLogMenu =AopLogMenu.UPDATE)
     @TimeFiledAnnotation(value = AopLogMenu.UPDATE)
     void update(User user);
+
+
+    Page<User> pagefind(PageUserDTO pageUserDTO);
 }
 
 

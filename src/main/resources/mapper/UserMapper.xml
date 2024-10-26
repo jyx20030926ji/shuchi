@@ -3,7 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.testvue.testvue.mapper.UserMapper">
 
-    <update id="update" parameterType="com.testvue.testvue.enity.User" >
+
+    <update id="update" parameterType="com.testvue.testvue.enity.po.User" >
 
      update users
      <set>
@@ -36,5 +37,18 @@
         where id=#{id}
 
     </update>
+
+    <select id="pagefind" parameterType="com.testvue.testvue.enity.dto.PageUserDTO" resultType="com.testvue.testvue.enity.po.User">
+        SELECT * FROM users
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="account != null and account != ''">
+                AND account LIKE CONCAT('%', #{account}, '%')
+            </if>
+        </where>
+    </select>
+
 
 </mapper>

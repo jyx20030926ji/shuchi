@@ -32,7 +32,7 @@ public class MyIntercepyor implements HandlerInterceptor {
 
 
 
-        String token = request.getHeader("authorization");
+        String token = request.getHeader("token");
 
 
         String requestURI = request.getRequestURI();
