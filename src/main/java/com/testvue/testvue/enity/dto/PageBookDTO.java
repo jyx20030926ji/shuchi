@@ -9,23 +9,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PublishBookDTO {
+public class PageBookDTO {
 
-    private Long id;
+    private Integer pageSize;
 
-    private String bookName;
-
-    private String description;
-
-    private String bookISBN;
-
-    private Double bookPrice;
-
-    private String bookAuthor;
+    private Integer currentPage;
 
     private Integer bookStatus;
 
-    private String imageUrl;
+    private String bookName;
+
+    private String bookAuthor;
+
+    private String bookStartPrice;
+
+    private String bookEndPrice;
 
 
 }

@@ -1,11 +1,8 @@
 # application.yml
 logging:
       level:
-        com.testvue.testvue.Mapper: DEBUG
+        com.testvue.testvue.mapper: DEBUG
 
-        com:
-          github:
-            xiaoymin=DEBUG:
 
 knife4j:
   enable: true

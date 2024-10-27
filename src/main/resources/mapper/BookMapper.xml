@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.testvue.testvue.mapper.BookMapper">
+    <update id="updateById" parameterType="com.testvue.testvue.enity.po.Book">
+        update book
+        <set>
+            <if test="bookName !=null and bookName != '' ">
+                book_name=#{bookName},
+            </if>
+            <if test="bookAuthor !=null and bookAuthor != '' ">
+                book_author=#{bookAuthor},
+            </if>
+            <if test="bookISBN !=null and bookISBN != '' ">
+                bookISBN=#{bookISBN},
+            </if>
+            <if test="bookPrice !=null  ">
+                book_price=#{bookPrice},
+            </if>
+            <if test="bookStatus !=null  ">
+                book_status=#{bookStatus},
+            </if>
+            <if test="description !=null and description != '' ">
+                description=#{description},
+            </if>
+            <if test="imageUrl !=null and imageUrl != '' ">
+                image_url=#{imageUrl},
+            </if>
+            <if test="updateTime !=null ">
+            update_time=#{updateTime},
+            </if>
+        </set>
+        where id=#{id}
+
+    </update>
+    <delete id="deleteBookByIds" parameterType="list">
+
+    delete  from  book
+      where id in
+      <foreach collection="ids" item="id" separator="," open="(" close=")">
+
+       #{id}
+
+      </foreach>
+
+
+   </delete>
+
+   <select id="pagefind" resultType="Book">
+
+   select * from book
+   <where>
+
+   <if test="bookName !=null and bookName != '' "> and book_name=#{bookName}</if>
+
+   <if test="bookAuthor != null and bookAuthor != '' ">  and book_author=#{bookAuthor}</if>
+
+   <if test="bookStartPrice !=null ">and  book_price &gt; #{bookStartPrice}</if>
+   <if test="bookEndPrice != null ">and book_price &lt; #{bookEndPrice}</if>
+
+   <if test="bookStatus != null ">and book_status=#{bookStatus}</if>
+
+
+
+
+   </where>
+
+            order by book_price DESC
+                limit #{currentPage},#{pageSize}
+
+
+
+
+
+
+
+   </select>
+   <select id="total" resultType="java.lang.Long" parameterType="com.testvue.testvue.enity.dto.PageBookDTO">
+
+      select count(*) from book
+      <where>
+
+         <if test="bookName !=null and bookName != '' "> and book_name=#{bookName}</if>
+
+         <if test="bookAuthor != null and bookAuthor != '' ">  and book_author=#{bookAuthor}</if>
+
+         <if test="bookStartPrice !=null ">and  book_price &gt; #{bookStartPrice}</if>
+         <if test="bookEndPrice != null ">and book_price &lt; #{bookEndPrice}</if>
+
+         <if test="bookStatus != null ">and book_status=#{bookStatus}</if>
+
+      </where>
+
+
+
+   </select>
+
+
+</mapper>

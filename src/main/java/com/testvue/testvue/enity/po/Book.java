@@ -33,4 +33,6 @@ public class Book {
     private LocalDateTime  updateTime;
 
     private String description;
+
+    private String imageUrl;
 }

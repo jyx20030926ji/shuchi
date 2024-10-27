@@ -22,7 +22,11 @@ public enum CodeMessageMenu implements MenuInterface {
 
         USER_ALREADY_EXIST(405,"用户已经存在"),
 
-        USER_PASSWORD_DISARESS(405,"密码不一致，请重新输入");
+        USER_PASSWORD_DISARESS(405,"密码不一致，请重新输入"),
+
+        Book_NOT_EXIST(404,"图书信息不存在");
+
+
 
         /**
          * 错误码
