@@ -9,9 +9,9 @@ import com.testvue.testvue.annotation.TimeFiledAnnotation;
 import com.testvue.testvue.enity.dto.PageUserDTO;
 import com.testvue.testvue.enity.po.User;
 import com.testvue.testvue.menu.AopLogMenu;
-import org.apache.ibatis.annotations.Delete;
+
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -32,8 +32,8 @@ public interface UserMapper  {
 
 
     @LogAnnotation(operation = "删除用户",aopLogMenu = AopLogMenu.DELETE)
-    @Delete("delete from users where id=#{id}")
-    void deleteById(Integer id);
+
+    void deleteByIds(List<Long> ids);
 
 
     @LogAnnotation(operation = "根据用户账号查询用户信息",aopLogMenu = AopLogMenu.LIST)
@@ -58,12 +58,13 @@ public interface UserMapper  {
 
 
 
-
      @LogAnnotation(operation = "查询用户总数",aopLogMenu = AopLogMenu.OTHER)
-    @Select("select count(id) from users")
+
     Long usertotal();
 
-
+     @LogAnnotation(operation = "根据用户id查询用户",aopLogMenu = AopLogMenu.LIST)
+     @Select("select *  from users where id=#{id}")
+    User selectById(Long id);
 }
 
 

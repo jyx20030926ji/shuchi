@@ -4,8 +4,11 @@ logging:
         com.testvue.testvue.mapper: DEBUG
 
 
-knife4j:
-  enable: true
+
+
+
+
+
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
@@ -23,5 +26,16 @@ spring:
         acknowledge-mode: auto
       direct:
         acknowledge-mode: auto
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  task:
+    scheduling:
+      pool:
+        size: 20
+      thread-name-prefix: Job-Thread-
+
+
+
+
 
 

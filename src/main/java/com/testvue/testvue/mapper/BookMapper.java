@@ -21,7 +21,7 @@ public interface BookMapper {
 
     @TimeFiledAnnotation(AopLogMenu.INSERT)
     @LogAnnotation(operation = "发布图书信息",aopLogMenu = AopLogMenu.INSERT)
-    @Insert("insert into book( bookName, book_author, book_status, bookISBN, book_price, user_id, create_time, update_time, description,image_url) VALUES( #{bookName}, #{bookAuthor}, #{bookStatus}, #{bookISBN}, #{bookPrice}, #{userId}, #{createTime},#{updateTime},#{description},#{imageUrl}) ")
+    @Insert("insert into book( book_name, book_author, book_status, bookISBN, book_price, user_id, create_time, update_time, description,image_url) VALUES( #{bookName}, #{bookAuthor}, #{bookStatus}, #{bookISBN}, #{bookPrice}, #{userId}, #{createTime},#{updateTime},#{description},#{imageUrl}) ")
     void publishBook(Book book);
 
     @LogAnnotation(operation = "分页查询图书信息",aopLogMenu = AopLogMenu.LIST)

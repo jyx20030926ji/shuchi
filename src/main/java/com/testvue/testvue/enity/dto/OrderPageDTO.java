@@ -1,20 +1,25 @@
 package com.testvue.testvue.enity.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class PageUserDTO {
-
-    private Integer pageSize;
+@Builder
+@Data
+public class OrderPageDTO {
 
     private Integer page;
 
-    private String account;
+    private Integer pageSize;
 
-    private String name;
+    private Integer status;
+
+    private Long userId;
+
+
 
 }

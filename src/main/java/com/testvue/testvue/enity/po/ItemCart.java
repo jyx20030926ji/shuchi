@@ -11,30 +11,30 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @Builder
-public class Book {
+public class ItemCart {
+
 
     private Long id;
 
+    private Long  cartId;
 
     private String bookName;
 
     private String bookAuthor;
 
-    private String bookISBN;
+    private String imageUrl;
 
-    private Double bookPrice;
-
-    private Integer bookStatus;
-
-    private  Long  UserId;
 
     private LocalDateTime createTime;
 
-    private LocalDateTime  updateTime;
 
-    private String description;
+    private LocalDateTime updateTime;
 
-    private String imageUrl;
+    private Integer bookNumber;
 
-    private Long  stock;
+    private Double bookPrice;
+
+    private Long bookId;
+
+
 }

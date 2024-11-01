@@ -37,9 +37,33 @@
         where id=#{id}
 
     </update>
+    <delete id="deleteByIds" parameterType="list">
+        delete from users where id in
+     <foreach collection="ids" item="id" separator="," open="(" close=")">
+
+      #{id}
+    </foreach>
+
+
+
+    </delete>
 
     <select id="pagefind" parameterType="com.testvue.testvue.enity.dto.PageUserDTO" resultType="com.testvue.testvue.enity.po.User">
         SELECT * FROM users
+        <where>
+            <if test="account!= null and account != ''">
+                AND name LIKE CONCAT('%', #{account}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                AND account LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+         limit #{page},#{pageSize}
+
+    </select>
+
+    <select id="usertotal"  resultType="long">
+        SELECT count(*) FROM users
         <where>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')
@@ -48,7 +72,7 @@
                 AND account LIKE CONCAT('%', #{account}, '%')
             </if>
         </where>
-         limit #{currentPage},#{pageSize}
+
 
     </select>
 

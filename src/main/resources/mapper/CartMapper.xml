@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.testvue.testvue.mapper.CartMapper">
+
+
+<insert id="insertInToCart" useGeneratedKeys="true" keyProperty="id">
+    insert into cart( user_Id, create_time, update_time) VALUES(#{userId},#{createTime},#{updateTime})
+
+</insert>
+    <update id="update" parameterType="com.testvue.testvue.enity.po.ItemCart">
+        update item_cart
+
+        <set>
+
+        <if test="bookNumber !=null ">book_number=#{bookNumber},</if>
+        <if test="bookName !=null and bookName != '' ">book_name=#{bookName},</if>
+        <if test="bookAuthor !=null and bookAuthor != '' ">book_author=#{bookAuthor},</if>
+        <if test="bookPrice !=null "> book_price=#{bookPrice},</if>
+        <if test="cartId !=null "> cart_id=#{cartId},</if>
+        <if test="createTime !=null ">create_time=#{createTime},</if>
+        <if test="updateTime !=null">update_time=#{updateTime},</if>
+        <if test="bookId !=null ">book_id=#{bookId},</if>
+        </set>
+
+        where id=#{id}
+
+    </update>
+
+</mapper>

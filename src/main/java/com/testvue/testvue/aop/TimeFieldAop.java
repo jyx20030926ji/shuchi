@@ -84,7 +84,7 @@ public class TimeFieldAop {
         }
         catch(NoSuchMethodException  | IllegalAccessException  | InvocationTargetException e ) {
 
-            e.printStackTrace();
+            System.out.println(object+":::::::::::::::::::::::::::::好像没有这个方法::::::::::::::::::");
     }
     }
 

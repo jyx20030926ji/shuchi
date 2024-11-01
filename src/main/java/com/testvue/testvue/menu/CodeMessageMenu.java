@@ -24,7 +24,13 @@ public enum CodeMessageMenu implements MenuInterface {
 
         USER_PASSWORD_DISARESS(405,"密码不一致，请重新输入"),
 
-        Book_NOT_EXIST(404,"图书信息不存在");
+        Book_NOT_EXIST(404,"图书信息不存在"),
+
+        CART_NOT_EXIST(404,"购物车不存在"),
+
+        BOOK_NOT_EXIST_OF_CART(404,"该图书不存在于购物车"),
+
+        ORDER_STATUS_NO_CAN_DELETE(404,"该订单状态错误，不能被取消或删除");
 
 
 

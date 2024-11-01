@@ -13,11 +13,9 @@ import java.util.List;
 public interface UserService  {
 
 
-    List<User> userlist();
 
-    User adduser(User user);
 
-    void deleteById(Integer id);
+    void deleteByIds(List<Long> ids);
 
     String login(LoginDTO loginDTO);
 
@@ -28,4 +26,5 @@ public interface UserService  {
     PageResult<User> pagefind(PageUserDTO pageUserDTO);
 
 
+    User selectById(Long id);
 }

@@ -46,7 +46,7 @@
 
    </delete>
 
-   <select id="pagefind" resultType="Book">
+   <select id="pagefind" resultType="com.testvue.testvue.enity.po.Book">
 
    select * from book
    <where>

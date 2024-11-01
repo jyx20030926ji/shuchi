@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.testvue.testvue.mapper.OrderMapper">
+
+
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id" parameterType="order">
+        insert into `order`( pay_ways, order_status, deliver_ways, deliver_time, create_time, update_time, receipt, cancel_time, cancel_reason, pay_time, user_id, address_id, order_number) VALUES (#{payWays},#{orderStatus},#{deliverWays},#{deliverTime},#{createTime},#{updateTime},#{receipt},#{cancelTime},#{cancelReason},#{payTime},#{userId},#{addressId},#{orderNumber})
+
+
+    </insert>
+    <insert id="insetOrderDetail" parameterType="orderdetail">
+        insert into order_detail( order_id, book_name, book_author, image_url, create_time, update_time, book_number, book_price) VALUES
+                            <foreach collection="orderDetails" separator="," item="od">
+                                (#{od.orderId},#{od.bookName},#{od.bookAuthor},#{od.imageUrl},#{od.createTime},#{od.updateTime},#{od.bookNumber},#{od.bookPrice})
+
+                            </foreach>
+
+    </insert>
+    <update id="updateOrderStatus" parameterType="com.testvue.testvue.enity.po.Order">
+         update `order`
+         <set>
+
+         <if test="orderStatus !=null ">order_status=#{orderStatus},</if>
+         <if test="payWays !=null ">pay_ways=#{payWays},</if>
+         <if test="deliverWays !=null ">deliver_ways=#{deliverWays},</if>
+         <if test="deliverTime !=null ">deliver_time=#{deliverTime},</if>
+         <if test="createTime !=null ">create_time=#{createTime},</if>
+         <if test="updateTime !=null ">update_time=#{updateTime},</if>
+         <if test="receipt !=null ">receipt=#{receipt},</if>
+         <if test="cancelTime !=null ">cancel_time=#{cancelTime},</if>
+         <if test="cancelReason !=null and cancelReason != ''  ">cancel_reason=#{cancelReason},</if>
+         <if test="payTime !=null " >pay_time=#{payTime},</if>
+         <if test="userId !=null ">user_id=#{userId},</if>
+         <if test="addressId !=null ">address_id=#{addressId},</if>
+         <if test="orderNumber !=null ">order_number=#{orderNumber},</if>
+
+
+         </set>
+
+
+
+    </update>
+    <delete id="deleteOrderByIds" parameterType="long">
+
+     delete  from `order`where id in
+                         <foreach collection="ids" item="id" separator="," open="(" close=")">
+
+                         #{id}
+
+                         </foreach>
+
+    </delete>
+    <select id="pagefindOrder" resultType="com.testvue.testvue.enity.po.Order" parameterType="com.testvue.testvue.enity.dto.OrderPageDTO">
+
+     select * from `order`
+     <where>
+
+     <if test="status !=null ">and status=#{status}</if>
+     <if test="userId !=null">and user_id=#{userId}</if>
+     </where>
+        Order by  create_time desc
+     limit #{page},#{pageSize}
+
+
+    </select>
+    <select id="findOrderTotal" resultType="java.lang.Long" parameterType="com.testvue.testvue.enity.dto.OrderPageDTO">
+
+        select count(*) from `order`
+        <where>
+
+            <if test="status !=null ">and status=#{status}</if>
+            <if test="userId !=null">and user_id=#{userId}</if>
+        </where>
+
+    </select>
+
+
+</mapper>

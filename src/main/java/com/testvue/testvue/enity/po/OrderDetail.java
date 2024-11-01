@@ -1,5 +1,7 @@
 package com.testvue.testvue.enity.po;
 
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,33 +10,31 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
-@Data
 @NoArgsConstructor
+@Data
 @Builder
-public class Book {
+public class OrderDetail {
 
     private Long id;
 
+    private Long  orderId;
 
     private String bookName;
 
     private String bookAuthor;
 
-    private String bookISBN;
+    private String imageUrl;
 
-    private Double bookPrice;
-
-    private Integer bookStatus;
-
-    private  Long  UserId;
 
     private LocalDateTime createTime;
 
-    private LocalDateTime  updateTime;
 
-    private String description;
+    private LocalDateTime updateTime;
 
-    private String imageUrl;
+    private Integer bookNumber;
 
-    private Long  stock;
+    private Double bookPrice;
+
+
+
 }

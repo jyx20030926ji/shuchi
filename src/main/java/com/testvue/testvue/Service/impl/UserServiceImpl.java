@@ -39,19 +39,13 @@ public class UserServiceImpl implements  UserService {
 
     Long ttlMillis=36000000L;
 
-    @Override
-    public List<User> userlist() {
-        return userMapper.userlist();
-    }
+
+
+
 
     @Override
-    public User adduser(User user) {
-        return null;
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        userMapper.deleteById(id);
+    public void deleteByIds(List<Long> ids) {
+        userMapper.deleteByIds(ids);
     }
 
     @Override
@@ -104,55 +98,19 @@ public class UserServiceImpl implements  UserService {
             throw  new AccountNoExistException(CodeMessageMenu.USER_ALREADY_EXIST);
         }
 
-
-        user.setId(BaseCont.get().longValue());
-
         userMapper.update(user);
 
     }
 
-
-
-    /**
-     * 分页条件查询 根据姓名和账号名
-     * @param pageUserDTO
-     * @return
-     */
-
-
-    /*     @Override
-        public PageResult<User> pagefind(PageUserDTO pageUserDTO) {
-            // 开始分页
-            PageHelper.startPage(pageUserDTO.getCurrentPage(),pageUserDTO.getPageSize());
-
-            Page<User> page;
-            try {
-                // 查询
-                page = userMapper.pagefind(pageUserDTO);
-
-                log.info("page------{}----",page);
-            } catch (Exception e) {
-                // 处理异常
-                throw new RuntimeException("Error while fetching users", e);
-            }
-
-            // 组装结果
-            PageResult<User> pageResult = new PageResult<>();
-            pageResult.setPageList(page.getResult());
-            pageResult.setTotal(page.getTotal());
-
-            return pageResult;
-        }
-   */
 
     @Override
     public PageResult<User> pagefind(PageUserDTO pageUserDTO) {
         // 开始分页
           Long total=userMapper.usertotal();
 
-          int currentPage=pageUserDTO.getCurrentPage();
-          pageUserDTO.setCurrentPage((pageUserDTO.getCurrentPage()-1)*pageUserDTO.getPageSize());
-          pageUserDTO.setPageSize(pageUserDTO.getPageSize()*currentPage-1);
+
+          pageUserDTO.setPage((pageUserDTO.getPage()-1)*pageUserDTO.getPageSize());
+
 
 
         List<User> userList = userMapper.pagefind(pageUserDTO);
@@ -162,16 +120,16 @@ public class UserServiceImpl implements  UserService {
         pageResult.setTotal(total);
         pageResult.setPageList(userList);
 
-
-
-
         return pageResult;
-    }
-
-
-
-
 
 
     }
+
+    @Override
+    public User selectById(Long id) {
+        return userMapper.selectById(id);
+    }
+
+
+}
 
