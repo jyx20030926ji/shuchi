@@ -27,16 +27,24 @@ public class MyIntercepyor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;  // 直接通过，不进行拦截
+        }
+
         System.out.print("开始拦截"+LocalTime.now());
 
 
 
 
-        String token = request.getHeader("token");
+        String token = request.getHeader("authorization");
 
 
         if (token == null) {
             throw new AccountNoExistException(CodeMessageMenu.USER_NOT_LEGALLY);
+        }
+        if (token.startsWith("Bearer ")) {
+            token = token.substring(7);  // 从第8个字符开始截取，即去掉 "Bearer " 前缀
         }
      try{
            Claims claims = jwtUtils.decoding(token);

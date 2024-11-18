@@ -1,8 +1,10 @@
 package com.testvue.testvue.controller.user;
 
 import com.testvue.testvue.Service.UserService;
+import com.testvue.testvue.basecont.BaseCont;
 import com.testvue.testvue.enity.dto.LoginDTO;
 import com.testvue.testvue.enity.dto.PageUserDTO;
+import com.testvue.testvue.enity.dto.PasswordDTO;
 import com.testvue.testvue.enity.dto.UserRegisterDTO;
 import com.testvue.testvue.enity.po.PageResult;
 import com.testvue.testvue.enity.po.Result;
@@ -24,10 +26,11 @@ public class UserController {
     {
         return Result.success(userService.pagefind(pageUserDTO)) ;
     }
-    @GetMapping("/{id}")
-    public Result<User> selectById(@PathVariable Long id)
+    @GetMapping
+    public Result<User> selectById()
     {
-        User user= userService.selectById(id);
+
+        User user= userService.selectById(BaseCont.get().longValue());
         return Result.success(user);
     }
 
@@ -60,6 +63,33 @@ public class UserController {
         userService.register(userRegisterDTO);
         return Result.success();
     }
+
+    @PutMapping("/change")
+    public Result changePassWord(@RequestBody PasswordDTO passwordDTO)
+    {
+        userService.changePassWord(passwordDTO);
+
+        return Result.success();
+
+    }
+    @GetMapping("/{id}")
+    public Result<User> getUserById(@PathVariable Long id)
+    {
+        User user = userService.selectById(id);
+
+        return Result.success(user);
+
+    }
+    @GetMapping("/emailregister")
+    public Result  emailRegister(String email,String code)
+    {
+        userService.emailRegister(email,code);
+        return  Result.success();
+    }
+
+
+
+
 
 
 

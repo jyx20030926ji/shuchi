@@ -29,6 +29,9 @@
             <if test="updateTime !=null ">
             update_time=#{updateTime},
             </if>
+            <if test="stock !=null ">
+            stock=#{stock},
+            </if>
         </set>
         where id=#{id}
 
@@ -51,21 +54,23 @@
    select * from book
    <where>
 
-   <if test="bookName !=null and bookName != '' "> and book_name=#{bookName}</if>
+   <if test="bookName !=null and bookName != '' ">  AND book_name LIKE CONCAT('%', #{bookName}, '%')</if>
 
-   <if test="bookAuthor != null and bookAuthor != '' ">  and book_author=#{bookAuthor}</if>
+   <if test="bookAuthor != null and bookAuthor != '' ">  AND book_author LIKE CONCAT('%', #{bookAuhor}, '%')</if>
 
    <if test="bookStartPrice !=null ">and  book_price &gt; #{bookStartPrice}</if>
    <if test="bookEndPrice != null ">and book_price &lt; #{bookEndPrice}</if>
 
    <if test="bookStatus != null ">and book_status=#{bookStatus}</if>
 
+            <if test="categoryId != null ">and categories_id=#{categoryId}</if>
+
 
 
 
    </where>
 
-            order by book_price DESC
+            order by id DESC
                 limit #{currentPage},#{pageSize}
 
 
@@ -88,6 +93,8 @@
          <if test="bookEndPrice != null ">and book_price &lt; #{bookEndPrice}</if>
 
          <if test="bookStatus != null ">and book_status=#{bookStatus}</if>
+
+      <if test="categoryId != null">categories_id=#{categoryId}</if>
 
       </where>
 

@@ -14,6 +14,7 @@ import com.testvue.testvue.enity.vo.OrderDetailVO;
 import com.testvue.testvue.enity.vo.OrderVO;
 import com.testvue.testvue.exception.AccountNoExistException;
 import com.testvue.testvue.mapper.AddressMapper;
+import com.testvue.testvue.mapper.BookMapper;
 import com.testvue.testvue.mapper.CartMapper;
 import com.testvue.testvue.mapper.OrderMapper;
 import com.testvue.testvue.menu.CodeMessageMenu;
@@ -42,12 +43,16 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private AddressMapper addressMapper;
 
+    @Autowired
+    private BookMapper bookMapper;
+
     /**
-     * 插入一条新的订单
+     * 插入一条新的订单  判断插入的订单详情数量是否大于库存 若大于则插入订单数据后回滚
      * @param orderDTO
      */
     @Override
-    public void insertOrder(OrderDTO orderDTO) {
+    @Transactional
+    public Long insertOrder(OrderDTO orderDTO) {
 
         Long userId=BaseCont.get().longValue();
 
@@ -57,7 +62,15 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderStatus(StatusConstant.ONE);
 
-        order.setOrderNumber(orderMapper.getlatestOrderNumber());
+        Long orderNumber = orderMapper.getlatestOrderNumber();
+
+        if(orderNumber==null)
+        {
+            order.setOrderNumber(199777L);
+        }
+        else {
+
+        order.setOrderNumber(orderNumber+1); }
 
         order.setAddressId(addressMapper.selectDefault(userId).getId());
 
@@ -76,6 +89,17 @@ public class OrderServiceImpl implements OrderService {
 
         List<ItemCart> itemCarts = cartMapper.selectCartListById(cart.getId());
 
+        for(ItemCart itemCart:itemCarts)
+        {
+            Book book = bookMapper.selectById(itemCart.getBookId());
+            if(book.getStock()<itemCart.getBookNumber())
+            {
+                throw new AccountNoExistException(404,itemCart.getBookName()+"库存不足请重试");
+            }
+             book.setStock(book.getStock()-itemCart.getBookNumber());
+             bookMapper.updateById(book);
+        }
+
         List<OrderDetail> orderDetails = BeanUtil.copyToList(itemCarts, OrderDetail.class);
 
         for(OrderDetail orderDetail:orderDetails)
@@ -84,8 +108,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         orderMapper.insetOrderDetail(orderDetails);
+
+
         cartMapper.deleteByCartId(cart.getId());
         cartMapper.deleteCartByUserId(userId);
+        return order.getId();
 
     }
 
@@ -122,7 +149,7 @@ public class OrderServiceImpl implements OrderService {
             imageUrls.add(orderDetail.getImageUrl());
 
           }
-          orderVOS.add(new OrderVO(imageUrls,number,total));
+          orderVOS.add(new OrderVO(id,imageUrls,number,total));
 
        }
        return new PageResult<>(orderVOS,totalRecords);
@@ -142,9 +169,9 @@ public class OrderServiceImpl implements OrderService {
 
        Order order=orderMapper.getOrderById(id);
 
-        AddressVO addressVO=new AddressVO();
 
-       BeanUtils.copyProperties(address,addressVO);
+
+
 
         Double total=0.00;
 
@@ -153,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
             total=total+orderDetail.getBookPrice()*orderDetail.getBookNumber();
         }
         OrderDetailVO orderDetailVO = OrderDetailVO.builder().orderDetailList(orderDetailList)
-                .addressVO(addressVO)
+                .addressId(address.getId())
                 .createTime(order.getCreateTime())
                 .orderNumber(order.getOrderNumber())
                 .orderStatus(order.getOrderStatus())
@@ -183,10 +210,11 @@ public class OrderServiceImpl implements OrderService {
         for(Long id:ids)
         {
             Order order = orderMapper.getOrderById(id);
-            if(order.getOrderStatus()!=StatusConstant.FOUR && order.getOrderStatus()!=StatusConstant.Five)
+            if(order.getOrderStatus()!=StatusConstant.FOUR.intValue() && order.getOrderStatus()!=StatusConstant.Five.intValue())
             {
                 throw  new AccountNoExistException(CodeMessageMenu.ORDER_STATUS_NO_CAN_DELETE);
             }
+            orderMapper.deleteOrderDetails(order.getId());
         }
 
         orderMapper.deleteOrderByIds(ids);
@@ -211,6 +239,23 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderStatus(updateOrderDTO.getStatus());
         order.setCancelReason(updateOrderDTO.getCancelReason());
         order.setCancelTime(LocalDateTime.now());
+
+        orderMapper.updateOrderStatus(order);
+
+    }
+
+    /**
+     * 修改订单地址信息  修改订单的地址的id
+     * @param orderId
+     * @param addressId
+     */
+
+    @Override
+    public void updateOrderAddressId(Long orderId,Long addressId) {
+        Order order=new Order();
+
+        order.setId(orderId);
+        order.setAddressId(addressId);
 
         orderMapper.updateOrderStatus(order);
 

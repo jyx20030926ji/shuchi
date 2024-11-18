@@ -23,7 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @PostMapping("/page")
     public Result<PageResult<User>> pagefind(@RequestBody PageUserDTO pageUserDTO)
     {
        return Result.success(userService.pagefind(pageUserDTO)) ;
@@ -51,6 +51,13 @@ public class UserController {
         return Result.success();
     }
 
+    /**
+     * 实现用户登录功能
+     *
+     * @param loginDTO
+     * @return
+     */
+
    @PostMapping("/login")
     public   Result<String> login(@RequestBody LoginDTO loginDTO)
    {
@@ -58,11 +65,49 @@ public class UserController {
        return Result.success(token);
    }
 
- @PostMapping("register")
+ @PostMapping("/register")
   public Result register(@RequestBody UserRegisterDTO userRegisterDTO)
  {
       userService.register(userRegisterDTO);
       return Result.success();
+ }
+ @PutMapping("/{id}/{status}")
+    public Result updateUserStatus(@PathVariable Long id,@PathVariable Integer status)
+ {
+     User user = userService.selectById(id);
+
+     user.setStatus(status);
+
+     userService.update(user);
+     return Result.success();
+ }
+ @PostMapping
+    public Result insertUser(@RequestBody User user)
+ {
+          userService.insertUser(user);
+             return Result.success();
+ }
+
+    /**
+     * 邮箱登录
+     * @param code
+     * @param account
+     * @return
+     */
+
+ @GetMapping("/logincode")
+    public Result<String> logincode(String code,String account)
+ {
+     String loginCode = userService.logincode(code, account);
+
+     return Result.success(loginCode);
+
+ }
+ @GetMapping("/account")
+    public Result<User> getUserByAccount(String account)
+ {
+   User user=userService.getUserByAccount(account);
+   return Result.success(user);
  }
 
 }

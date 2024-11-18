@@ -11,19 +11,21 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PageBookDTO {
 
-    private Integer pageSize;
-
     private Integer currentPage;
 
-    private Integer bookStatus;
 
-    private String bookName;
+    private Integer pageSize;
+
+    private  String bookName;
 
     private String bookAuthor;
 
-    private String bookStartPrice;
+    private Double bookStartPrice;
 
-    private String bookEndPrice;
+    private Double bookEndPrice;
 
+    private Integer bookStatus;
+
+    private Integer categoryId;
 
 }

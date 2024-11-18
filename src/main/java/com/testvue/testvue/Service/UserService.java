@@ -3,6 +3,7 @@ package com.testvue.testvue.Service;
 
 import com.testvue.testvue.enity.dto.LoginDTO;
 import com.testvue.testvue.enity.dto.PageUserDTO;
+import com.testvue.testvue.enity.dto.PasswordDTO;
 import com.testvue.testvue.enity.dto.UserRegisterDTO;
 import com.testvue.testvue.enity.po.PageResult;
 import com.testvue.testvue.enity.po.User;
@@ -27,4 +28,14 @@ public interface UserService  {
 
 
     User selectById(Long id);
+
+    void insertUser(User user);
+
+    String logincode(String code, String account);
+
+    void changePassWord(PasswordDTO passwordDTO);
+
+    User getUserByAccount(String account);
+
+    void emailRegister(String email, String code);
 }

@@ -15,7 +15,7 @@ public class UserRegisterDTO {
 
     private String password;
 
-    private String repeatPassword;
+    private String email;
 
 
 

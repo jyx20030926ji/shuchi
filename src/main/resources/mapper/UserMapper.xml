@@ -30,7 +30,17 @@
              city=#{city},
          </if>
          <if test="updateTime != null ">
-         update_time=#{updateTime}
+         update_time=#{updateTime},
+         </if>
+     <if test="balance != null ">
+         balance=#{balance},
+     </if>
+         <if test="status != null ">
+             status=#{status},
+
+         </if>
+         <if test="avatarUrl != null ">
+         avatar_url=#{avatarUrl},
          </if>
 
      </set>
@@ -51,12 +61,13 @@
     <select id="pagefind" parameterType="com.testvue.testvue.enity.dto.PageUserDTO" resultType="com.testvue.testvue.enity.po.User">
         SELECT * FROM users
         <where>
-            <if test="account!= null and account != ''">
-                AND name LIKE CONCAT('%', #{account}, '%')
+            <if test="account!= null and account != '' ">
+                AND account LIKE CONCAT('%', #{account}, '%')
             </if>
             <if test="name != null and name != ''">
-                AND account LIKE CONCAT('%', #{name}, '%')
+                AND name LIKE CONCAT('%', #{name}, '%')
             </if>
+                 <if test="status != null ">and status=#{status} </if>
         </where>
          limit #{page},#{pageSize}
 
@@ -65,15 +76,14 @@
     <select id="usertotal"  resultType="long">
         SELECT count(*) FROM users
         <where>
+            <if test="account!= null and account != ''">
+                AND account LIKE CONCAT('%', #{account}, '%')
+            </if>
             <if test="name != null and name != ''">
                 AND name LIKE CONCAT('%', #{name}, '%')
             </if>
-            <if test="account != null and account != ''">
-                AND account LIKE CONCAT('%', #{account}, '%')
-            </if>
+            <if test="status != null ">and status=#{status} </if>
         </where>
-
-
     </select>
 
 

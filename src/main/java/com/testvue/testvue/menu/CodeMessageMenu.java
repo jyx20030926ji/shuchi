@@ -30,7 +30,17 @@ public enum CodeMessageMenu implements MenuInterface {
 
         BOOK_NOT_EXIST_OF_CART(404,"该图书不存在于购物车"),
 
-        ORDER_STATUS_NO_CAN_DELETE(404,"该订单状态错误，不能被取消或删除");
+        ORDER_STATUS_NO_CAN_DELETE(404,"该订单状态错误，不能被取消或删除"),
+
+       ORDER_NOT_EXIST(404,"订单不存在"),
+
+       ORDER_ALREADY_PAYED(404,"订单已经支付过了"),
+
+       USER_EMAIL_EXIST(401,"用户邮箱已存在"),
+
+        CODE_NOT_EXIST(401,"验证码不存在"),
+
+        CODE_CHECK_ERROR(401,"验证码输入错误,请重新输入");
 
 
 

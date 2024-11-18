@@ -15,6 +15,8 @@ import java.util.List;
 @Builder
 public class OrderVO {
 
+    private Long id;
+
     private List<String> imageUrls;
 
     private Integer number;

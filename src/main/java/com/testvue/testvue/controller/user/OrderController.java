@@ -1,14 +1,17 @@
 package com.testvue.testvue.controller.user;
 
 import com.testvue.testvue.Service.OrderService;
+import com.testvue.testvue.enity.dto.AddressDTO;
 import com.testvue.testvue.enity.dto.OrderDTO;
 import com.testvue.testvue.enity.dto.OrderPageDTO;
 import com.testvue.testvue.enity.dto.UpdateOrderDTO;
 import com.testvue.testvue.enity.po.PageResult;
 import com.testvue.testvue.enity.po.Result;
+import com.testvue.testvue.enity.vo.AddressVO;
 import com.testvue.testvue.enity.vo.OrderDetailVO;
 import com.testvue.testvue.enity.vo.OrderVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +31,10 @@ public class OrderController {
      * @return
      */
     @PostMapping
-    public Result  insertOrder(@RequestBody OrderDTO orderDTO)
+    public Result<Long>  insertOrder(@RequestBody OrderDTO orderDTO)
     {
-        orderService.insertOrder(orderDTO);
-        return Result.success();
+        Long orderId = orderService.insertOrder(orderDTO);
+        return Result.success(orderId);
     }
 
     /**
@@ -39,7 +42,7 @@ public class OrderController {
      * @param orderPageDTO
      * @return
      */
-    @GetMapping
+    @PostMapping("/page")
     Result<PageResult<OrderVO>> getOrder(@RequestBody OrderPageDTO orderPageDTO)
     {
      PageResult<OrderVO> orderVOPageResult= orderService.pagefindOrder(orderPageDTO);
@@ -70,6 +73,11 @@ public class OrderController {
         return Result.success();
     }
 
+    /**
+     * 修改订单基本信息  //取消订单
+     * @param updateOrderDTO
+     * @return
+     */
     @PutMapping
     public Result updateOrderStatus(@RequestBody UpdateOrderDTO updateOrderDTO)
     {
@@ -78,4 +86,20 @@ public class OrderController {
         return Result.success();
 
     }
+
+    /**
+     * 修改订单地址 两种修改形式 1 修改改地址的地址信息 用的是AddressController里的修改地址的接口 地址id不变 信息改变了
+     * 2 这里写的是第二种 修改该订单的地址的id
+     * @param orderId addressId
+     * @return
+     */
+    @PutMapping("/{orderId}/{addressId}")
+    public Result updateOrderAddressId(@PathVariable Long orderId,@PathVariable Long addressId)
+    {
+      orderService.updateOrderAddressId(orderId,addressId);
+      return Result.success();
+    }
+
+
+
 }

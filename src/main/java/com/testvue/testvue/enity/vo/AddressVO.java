@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AddressVO {
 
+    private Long id;
+
     private String name;
 
     private String phone;

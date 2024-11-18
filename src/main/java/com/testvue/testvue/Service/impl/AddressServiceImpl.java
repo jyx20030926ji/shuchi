@@ -3,9 +3,11 @@ package com.testvue.testvue.Service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.testvue.testvue.Service.AddressService;
 import com.testvue.testvue.basecont.BaseCont;
+import com.testvue.testvue.constant.StatusConstant;
 import com.testvue.testvue.enity.dto.AddressDTO;
 import com.testvue.testvue.enity.po.Address;
 import com.testvue.testvue.enity.vo.AddressVO;
+import com.testvue.testvue.exception.AccountNoExistException;
 import com.testvue.testvue.mapper.AddressMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -83,6 +85,17 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void updateAddressStatus(Long id, Integer status) {
         Address address=new Address();
+        if(status==StatusConstant.ONE)
+        {
+            Address address1 = addressMapper.selectDefault(BaseCont.get().longValue());
+            if(address1!=null)
+            {
+                throw new AccountNoExistException(500,"默认地址已经存在");
+            }
+        }
+
+
+
         address.setId(id);
         address.setStatus(status);
         addressMapper.updateAddress(address);

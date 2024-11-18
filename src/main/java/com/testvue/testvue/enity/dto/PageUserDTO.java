@@ -17,4 +17,6 @@ public class PageUserDTO {
 
     private String name;
 
+    private Integer status;
+
 }

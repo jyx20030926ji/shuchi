@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 public class OrderDetailVO {
 
-    private AddressVO addressVO;
+    private Long addressId;
 
     private Double total;
 

@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +26,15 @@ public class BookDetailVO {
     private String imageUrl;
 
     private String description;
+
+    private  String bookAuthor;
+
+    private String bookName;
+
+    private Integer bookStatus;
+
+    private LocalDateTime createTime;
+
 
 
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.testvue.testvue.mapper.MessageMapper">
+
+
+    <update id="updateMessageStatus" parameterType="list" >
+
+   update message
+   <set>
+
+       is_read_message=1
+
+   </set>
+
+   where id in
+   <foreach collection="ids" item="id" open="(" close=")" separator=",">
+
+      #{id}
+
+   </foreach>
+
+
+
+    </update>
+</mapper>

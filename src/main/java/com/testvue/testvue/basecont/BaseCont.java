@@ -9,6 +9,7 @@ package com.testvue.testvue.basecont;
 public class BaseCont {
     private static final ThreadLocal<Integer> threadLocal = new ThreadLocal<>();
 
+
     public static void set(Integer userId) {
         threadLocal.set(userId);
     }

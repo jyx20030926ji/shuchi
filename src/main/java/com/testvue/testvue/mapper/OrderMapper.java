@@ -7,6 +7,7 @@ import com.testvue.testvue.enity.po.Address;
 import com.testvue.testvue.enity.po.Order;
 import com.testvue.testvue.enity.po.OrderDetail;
 import com.testvue.testvue.menu.AopLogMenu;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -43,9 +44,16 @@ public interface OrderMapper {
 
     void deleteOrderByIds(List<Long> ids);
 
+
+    @LogAnnotation(operation = "更改订单信息",aopLogMenu = AopLogMenu.UPDATE)
+    @TimeFiledAnnotation(AopLogMenu.UPDATE)
     void updateOrderStatus(Order order);
 
 
     @Select("select * from `order`where order_status=1 and create_time < #{localDateTime}")
     List<Order> getPendingPaymentOrder(LocalDateTime localDateTime);
+
+    @LogAnnotation(operation = "删除订单详情",aopLogMenu = AopLogMenu.DELETE)
+    @Delete("delete from order_detail where order_id=#{id}")
+    void deleteOrderDetails(Long id);
 }

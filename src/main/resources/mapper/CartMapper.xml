@@ -21,6 +21,7 @@
         <if test="createTime !=null ">create_time=#{createTime},</if>
         <if test="updateTime !=null">update_time=#{updateTime},</if>
         <if test="bookId !=null ">book_id=#{bookId},</if>
+            <if test="imageUrl != null ">image_url=#{imageUrl}</if>
         </set>
 
         where id=#{id}

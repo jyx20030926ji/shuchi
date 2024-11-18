@@ -4,6 +4,7 @@ import com.testvue.testvue.basecont.BaseCont;
 import com.testvue.testvue.enity.dto.PageBookDTO;
 import com.testvue.testvue.enity.dto.PublishBookDTO;
 import com.testvue.testvue.enity.po.Book;
+import com.testvue.testvue.enity.po.Categories;
 import com.testvue.testvue.enity.po.PageResult;
 import com.testvue.testvue.enity.vo.BookDetailVO;
 import com.testvue.testvue.exception.AccountNoExistException;
@@ -117,6 +118,16 @@ public class BookServiceImpl implements BookService {
         bookMapper.updateById(book);
 
 
+    }
+
+    @Override
+    public void updateStatusById(Long id, Integer status) {
+        bookMapper.updateStatusById(id,status);
+    }
+
+    @Override
+    public List<Categories> getAllCategories() {
+      return  bookMapper.getAllCategories();
     }
 
 

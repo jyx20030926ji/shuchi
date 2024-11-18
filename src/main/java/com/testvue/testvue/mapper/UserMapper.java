@@ -7,12 +7,14 @@ import com.testvue.testvue.annotation.TimeFiledAnnotation;
 
 
 import com.testvue.testvue.enity.dto.PageUserDTO;
+import com.testvue.testvue.enity.dto.UserRegisterDTO;
 import com.testvue.testvue.enity.po.User;
 import com.testvue.testvue.menu.AopLogMenu;
 
 import org.apache.ibatis.annotations.Insert;
 
 import org.apache.ibatis.annotations.Select;
+
 
 import java.util.List;
 
@@ -59,12 +61,25 @@ public interface UserMapper  {
 
 
      @LogAnnotation(operation = "查询用户总数",aopLogMenu = AopLogMenu.OTHER)
-
-    Long usertotal();
+    Long usertotal(PageUserDTO pageUserDTO);
 
      @LogAnnotation(operation = "根据用户id查询用户",aopLogMenu = AopLogMenu.LIST)
      @Select("select *  from users where id=#{id}")
     User selectById(Long id);
+
+
+     @LogAnnotation(operation = "插入一条用户记录",aopLogMenu = AopLogMenu.INSERT)
+     @TimeFiledAnnotation(AopLogMenu.INSERT)
+     @Insert("insert into users(name, age, gender,  address, city, account, password, create_time, update_time,avatar_url,email,status) VALUES (#{name},#{age},#{gender},#{address},#{city},#{account},#{password},#{createTime},#{updateTime},#{avatarUrl},#{email},#{status})")
+    void insertUser(User user);
+
+
+     @LogAnnotation(operation = "根据邮箱查询用户是否存在",aopLogMenu = AopLogMenu.LIST)
+     @Select("select * from users where email=#{email}")
+     User getUserByemail(String email);
+
+
+
 }
 
 

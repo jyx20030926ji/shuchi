@@ -38,6 +38,10 @@
 
          </set>
 
+        where id=#{id}
+
+
+
 
 
     </update>
@@ -56,8 +60,9 @@
      select * from `order`
      <where>
 
-     <if test="status !=null ">and status=#{status}</if>
+     <if test="status !=null ">and order_status=#{status}</if>
      <if test="userId !=null">and user_id=#{userId}</if>
+
      </where>
         Order by  create_time desc
      limit #{page},#{pageSize}
@@ -69,7 +74,7 @@
         select count(*) from `order`
         <where>
 
-            <if test="status !=null ">and status=#{status}</if>
+            <if test="status !=null ">and order_status=#{status}</if>
             <if test="userId !=null">and user_id=#{userId}</if>
         </where>
 

@@ -6,12 +6,12 @@ import com.testvue.testvue.enity.po.Address;
 
 import com.testvue.testvue.menu.AopLogMenu;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
+
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-@Mapper
+
 public interface AddressMapper {
 
     /**

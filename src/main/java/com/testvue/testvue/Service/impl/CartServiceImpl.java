@@ -37,9 +37,14 @@ public class CartServiceImpl implements CartService {
 
         Double total=0.00;
 
-        log.info("用户id为：{}",BaseCont.get());
+
 
         Cart cart=cartMapper.selectCartByUserId(BaseCont.get().longValue());
+
+        if(cart==null)
+        {
+            throw new AccountNoExistException(CodeMessageMenu.CART_NOT_EXIST);
+        }
 
         List<ItemCart> itemCartList=cartMapper.selectCartListById(cart.getId());
 
@@ -48,12 +53,18 @@ public class CartServiceImpl implements CartService {
             total=total+itemCart.getBookPrice()*itemCart.getBookNumber();
         }
 
-        return new CartVO(itemCartList,total);
+        return new CartVO(cart.getId(),itemCartList,total);
 
     }
 
     @Override
     public void insertInToCart(Long id) {
+
+        Book book = bookMapper.selectById(id);
+        if(book==null)
+        {
+            throw new AccountNoExistException(CodeMessageMenu.Book_NOT_EXIST);
+        }
 
         // 判断购物单是否存在，不存在先生成购物单 然后回显；
         Cart cart = cartMapper.selectCartByUserId(BaseCont.get().longValue());
@@ -65,7 +76,6 @@ public class CartServiceImpl implements CartService {
 
             cartMapper.insertInToCart(cart1);
 
-            Book book = bookMapper.selectById(id);
 
             ItemCart itemCart = ItemCart.builder().cartId(cart1.getId())
                     .bookNumber(1)
@@ -73,6 +83,7 @@ public class CartServiceImpl implements CartService {
                     .bookName(book.getBookName())
                     .bookAuthor(book.getBookAuthor())
                     .bookId(book.getId())
+                    .imageUrl(book.getImageUrl())
                     .build();
 
             cartMapper.insertInToCartItem(itemCart);
@@ -88,7 +99,7 @@ public class CartServiceImpl implements CartService {
             }
             if (itemCart == null) {
 
-                Book book = bookMapper.selectById(id);
+
 
                 ItemCart itemCart1 = ItemCart.builder().cartId(cart.getId())
                         .bookNumber(1)
@@ -96,6 +107,7 @@ public class CartServiceImpl implements CartService {
                         .bookName(book.getBookName())
                         .bookAuthor(book.getBookAuthor())
                         .bookId(book.getId())
+                        .imageUrl(book.getImageUrl())
                         .build();
                 cartMapper.insertInToCartItem(itemCart1);
 
@@ -138,6 +150,11 @@ public class CartServiceImpl implements CartService {
              }
         }
 
+    }
+
+    @Override
+    public void deleteItemById(Long id) {
+        cartMapper.deleteByItemId(id);
     }
 
 }

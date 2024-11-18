@@ -3,6 +3,7 @@ package com.testvue.testvue.controller.user;
 import com.testvue.testvue.Service.CartService;
 import com.testvue.testvue.enity.po.Result;
 import com.testvue.testvue.enity.vo.CartVO;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,14 @@ public class CartController {
     {
         cartService.deduct(id);
         return Result.success();
+    }
+    @DeleteMapping("/{id}")
+    public Result deleteItemById(@PathVariable Long id)
+    {
+        cartService.deleteItemById(id);
+
+        return Result.success();
+
     }
 
 

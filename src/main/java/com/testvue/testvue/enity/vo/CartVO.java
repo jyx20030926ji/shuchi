@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CartVO {
-
+   private Long id;
 
    private List<ItemCart> itemCartList;
 

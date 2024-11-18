@@ -59,7 +59,7 @@ public interface CartMapper {
      */
     @LogAnnotation(operation = "插入图书到购物车中",aopLogMenu = AopLogMenu.INSERT)
     @TimeFiledAnnotation(value = AopLogMenu.INSERT)
-    @Insert("insert into item_cart(cart_id, book_name, book_author, book_price, book_number, create_time, update_time, book_id) VALUES (#{cartId},#{bookName},#{bookAuthor},#{bookPrice},#{bookNumber},#{createTime},#{updateTime},#{bookId})") 
+    @Insert("insert into item_cart(cart_id, book_name, book_author, book_price, book_number, create_time, update_time, book_id,image_url) VALUES (#{cartId},#{bookName},#{bookAuthor},#{bookPrice},#{bookNumber},#{createTime},#{updateTime},#{bookId},#{imageUrl})")
     void insertInToCartItem(ItemCart itemCart);
 
 

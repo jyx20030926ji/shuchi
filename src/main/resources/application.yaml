@@ -3,11 +3,12 @@ logging:
       level:
         com.testvue.testvue.mapper: DEBUG
 
-
-
-
-
-
+jyx:
+  alioss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    access-key-id: LTAI5t6cwoYrpPbX5xgNeLwg
+    access-key-secret: qxo9u30D8fcutB2m1NmGSBiJRpFet0
+    bucket-name: jyxbookmanger
 
 mybatis:
   configuration:
@@ -26,13 +27,66 @@ spring:
         acknowledge-mode: auto
       direct:
         acknowledge-mode: auto
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
+
   task:
     scheduling:
       pool:
         size: 20
       thread-name-prefix: Job-Thread-
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      jedis:
+        pool:
+          enabled: true
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+          max-wait: 10000
+
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/users
+    username: root
+    password: 20030926
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      pool-name: HikariCP
+
+
+
+      repositories:
+        enabled: true
+
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2736805640@qq.com  # 使用 QQ 邮箱地址
+    password: uxdwcelqzqlfdchg    # 使用生成的授权码而不是邮箱密码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: smtp.qq.com
+    default-encoding: UTF-8
+
+
+
+
+
+
+
 
 
 

@@ -3,6 +3,7 @@ import com.testvue.testvue.Service.BookService;
 import com.testvue.testvue.enity.dto.PageBookDTO;
 import com.testvue.testvue.enity.dto.PublishBookDTO;
 import com.testvue.testvue.enity.po.Book;
+import com.testvue.testvue.enity.po.Categories;
 import com.testvue.testvue.enity.po.PageResult;
 import com.testvue.testvue.enity.po.Result;
 import com.testvue.testvue.enity.vo.BookDetailVO;
@@ -39,7 +40,7 @@ public class BookController {
         return Result.success();
     }
 
-    @GetMapping
+    @PostMapping("/page")
     public Result<PageResult<Book>> pagefind(@RequestBody PageBookDTO pageBookDTO)
     {
 
@@ -77,6 +78,23 @@ public class BookController {
     {
         bookService.updateById(publishBookDTO);
         return Result.success();
+    }
+
+    @PutMapping("/{id}/{status}")
+    public Result updateStatusById(@PathVariable Long id,@PathVariable Integer status)
+    {
+
+        bookService.updateStatusById(id,status);
+        return Result.success();
+    }
+    @GetMapping("/categories")
+    public Result<List<Categories>> getAllCategories()
+    {
+
+      List<Categories> categoriesList=bookService.getAllCategories();
+
+      return Result.success(categoriesList);
+
     }
 
 }

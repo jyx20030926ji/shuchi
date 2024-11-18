@@ -25,7 +25,7 @@ public class OrderTask {
     @Scheduled(cron = "0 0/1 * * * ?" )
     public void updateOrder()
     {
-      List<Order> orderList=orderMapper.getPendingPaymentOrder(LocalDateTime.now().minusMinutes(1));
+      List<Order> orderList=orderMapper.getPendingPaymentOrder(LocalDateTime.now().minusMinutes(30));
 
       for(Order order:orderList)
       {
