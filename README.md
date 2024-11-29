@@ -8,4 +8,86 @@
 
 具体功能 自己使用体会，可以自行完善项目。 
 
-切记yaml文件中的配置换成自己的 
+切记yaml文件中的配置换成自己的 主要是阿里云oss和Mysql数据库 QQ邮箱用自己的邮箱名和授权码 redis也是 如果有密码的话填自己的密码
+# application.yml
+logging:
+      level:
+        com.testvue.testvue.mapper: DEBUG
+#阿里云对象存储用自己的
+jyx:
+  alioss:
+    endpoint: 
+    access-key-id: 
+    access-key-secret: 
+    bucket-name: 
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+spring:
+  rabbitmq:
+    password: 123
+    host: 192.168.81.133
+    port: 5672
+    username: root
+
+    virtual-host: /root
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: auto
+      direct:
+        acknowledge-mode: auto
+
+  task:
+    scheduling:
+      pool:
+        size: 20
+      thread-name-prefix: Job-Thread-
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      jedis:
+        pool:
+          enabled: true
+          max-active: 10
+          max-idle: 5
+          min-idle: 2
+          max-wait: 10000
+
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/users
+    username: root
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      pool-name: HikariCP
+
+
+
+      repositories:
+        enabled: true
+
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username:    # 使用 QQ 邮箱地址
+    password:    # 使用生成的授权码而不是邮箱密码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: smtp.qq.com
+    default-encoding: UTF-8
