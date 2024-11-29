@@ -5,7 +5,10 @@ package com.testvue.testvue.controller;
 
 
 import com.testvue.testvue.Utils.AliOssUtil;
+import com.testvue.testvue.basecont.BaseCont;
 import com.testvue.testvue.enity.po.Result;
+import com.testvue.testvue.enity.po.User;
+import com.testvue.testvue.mapper.UserMapper;
 import io.swagger.annotations.Api;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,9 @@ import java.util.UUID;
 public class UploadController {
     @Autowired
     private AliOssUtil aliOssUtil;
+
+    @Autowired
+    private UserMapper userMapper;
     @PostMapping("/upload")
     public Result upload(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
@@ -35,7 +41,13 @@ public class UploadController {
         log.info("newname{}",newname);
 
         String url= aliOssUtil.upload(file.getBytes(),newname);
+
+
         log.info("url的地址为{}",url);
+        User user = userMapper.selectById(BaseCont.get().longValue());
+        user.setAvatarUrl(url);
+        userMapper.update(user);
         return Result.success(url);
+
     }
 }

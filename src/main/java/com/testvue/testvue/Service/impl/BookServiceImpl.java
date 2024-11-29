@@ -130,5 +130,11 @@ public class BookServiceImpl implements BookService {
       return  bookMapper.getAllCategories();
     }
 
+    @Override
+    public List<Book> getBookListByUserId() {
+
+        return bookMapper.getBookListByUserId(BaseCont.get().longValue());
+    }
+
 
 }

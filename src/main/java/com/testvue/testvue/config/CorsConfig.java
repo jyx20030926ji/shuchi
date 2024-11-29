@@ -10,12 +10,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 允许所有路径
-                .allowedOrigins("http://localhost:5173", "http://localhost:5174") // 允许的域名，可以是多个
+                .allowedOrigins("http://localhost:5173", "http://localhost:5174","http://10.82.83.116:5173") // 允许的域名，可以是多个
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 允许的方法
                 .allowedHeaders("*")
                 .allowCredentials(true) // 是否允许发送Cookie
                 .maxAge(3600); // 预检请求的有效期，单位秒
     }
-
-
 }

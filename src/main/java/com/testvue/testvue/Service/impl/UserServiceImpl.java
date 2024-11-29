@@ -100,7 +100,12 @@ public class UserServiceImpl implements  UserService {
 
         User user1 = userMapper.selectByAccount(user.getAccount());
         if (user1 != null) {
-            throw new AccountNoExistException(CodeMessageMenu.USER_ALREADY_EXIST);
+
+            if(user1.getId()!=BaseCont.get().longValue())
+            {
+                throw new AccountNoExistException(CodeMessageMenu.USER_ALREADY_EXIST);
+            }
+
         }
 
         userMapper.update(user);

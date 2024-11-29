@@ -10,9 +10,9 @@
 
     </insert>
     <insert id="insetOrderDetail" parameterType="orderdetail">
-        insert into order_detail( order_id, book_name, book_author, image_url, create_time, update_time, book_number, book_price) VALUES
+        insert into order_detail( order_id, book_name, book_author, image_url, create_time, update_time, book_number, book_price,user_id,ordered_user_id,order_status,order_number) VALUES
                             <foreach collection="orderDetails" separator="," item="od">
-                                (#{od.orderId},#{od.bookName},#{od.bookAuthor},#{od.imageUrl},#{od.createTime},#{od.updateTime},#{od.bookNumber},#{od.bookPrice})
+                                (#{od.orderId},#{od.bookName},#{od.bookAuthor},#{od.imageUrl},#{od.createTime},#{od.updateTime},#{od.bookNumber},#{od.bookPrice},#{od.userId},#{od.orderedUserId},#{od.orderStatus},#{od.orderNumber})
 
                             </foreach>
 
@@ -41,6 +41,23 @@
         where id=#{id}
 
 
+
+
+
+    </update>
+    <update id="updataOrderDetail" parameterType="orderdetail">
+
+    update order_detail
+    <set >
+        <if test="orderStatus != null ">order_status =#{orderStatus},</if>
+        <if test="updateTime != null ">update_time=#{updateTime},</if>
+        <if test="createTime != null ">create_time=#{createTime},</if>
+        <if test="cancelReason != null and cancelReason != '' ">cancel_reason=#{cancelReason}</if>
+
+
+    </set>
+
+        where id=#{id}
 
 
 

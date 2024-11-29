@@ -43,6 +43,10 @@ public class User {
 
     private  String email;
 
+    private  String vxAccount;
+
+    private String payPassword;
+
 
 
 }

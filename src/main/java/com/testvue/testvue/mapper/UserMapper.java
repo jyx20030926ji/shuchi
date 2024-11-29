@@ -80,6 +80,8 @@ public interface UserMapper  {
 
 
 
+     @Select("select u.* from users u,book b where u.id=b.user_id and b.id=#{id}")
+    User getUserByBookId(Long id);
 }
 
 

@@ -54,9 +54,9 @@
    select * from book
    <where>
 
-   <if test="bookName !=null and bookName != '' ">  AND book_name LIKE CONCAT('%', #{bookName}, '%')</if>
 
-   <if test="bookAuthor != null and bookAuthor != '' ">  AND book_author LIKE CONCAT('%', #{bookAuhor}, '%')</if>
+
+      <if test=" searchQuery !=null and searchQuery  != '' ">AND (book_name LIKE CONCAT('%', #{searchQuery}, '%') OR book_author LIKE CONCAT('%', #{searchQuery}, '%'))</if>
 
    <if test="bookStartPrice !=null ">and  book_price &gt; #{bookStartPrice}</if>
    <if test="bookEndPrice != null ">and book_price &lt; #{bookEndPrice}</if>

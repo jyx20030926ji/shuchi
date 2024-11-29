@@ -1,6 +1,7 @@
 package com.testvue.testvue.menu;
 
 
+import com.testvue.testvue.enity.po.OrderDetail;
 import com.testvue.testvue.iterface.MenuInterface;
 
 public enum CodeMessageMenu implements MenuInterface {
@@ -40,7 +41,19 @@ public enum CodeMessageMenu implements MenuInterface {
 
         CODE_NOT_EXIST(401,"验证码不存在"),
 
-        CODE_CHECK_ERROR(401,"验证码输入错误,请重新输入");
+        CODE_CHECK_ERROR(401,"验证码输入错误,请重新输入"),
+
+        VX_ACCOUNT_NOTEXIST(401,"未绑定微信账号,请先绑定微信账号"),
+
+        PAY_PASSWORD_ERROR(401,"支付密码错误,请重试"),
+
+        PAY_PASSWORD_NOTEXIST(401,"支付密码不存在,请先去设置支付密码"),
+
+        USER_BLANCE_NOT(401,"用户余额不足"),
+
+        DEFAULT_ADDRESS_NOT_EXIST(401,"默认地址不存在"),
+
+        ORDER_DETAIL_NOT_EXIST(401,"订单详情不存在");
 
 
 

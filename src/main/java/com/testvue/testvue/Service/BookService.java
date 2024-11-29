@@ -26,4 +26,6 @@ public interface BookService {
     void updateStatusById(Long id, Integer status);
 
     List<Categories> getAllCategories();
+
+    List<Book> getBookListByUserId();
 }

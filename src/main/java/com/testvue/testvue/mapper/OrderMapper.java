@@ -56,4 +56,15 @@ public interface OrderMapper {
     @LogAnnotation(operation = "删除订单详情",aopLogMenu = AopLogMenu.DELETE)
     @Delete("delete from order_detail where order_id=#{id}")
     void deleteOrderDetails(Long id);
+
+
+    @Select("select * from order_detail where ordered_user_id=#{id}")
+    List<OrderDetail> getOrderDetailByUserId(Long id);
+
+
+    @TimeFiledAnnotation(AopLogMenu.UPDATE)
+    void updataOrderDetail(OrderDetail orderDetail);
+
+    @Select("select * from order_detail where id=#{orderDetailId}")
+    OrderDetail getOrderDetailById(Long orderDetailId);
 }

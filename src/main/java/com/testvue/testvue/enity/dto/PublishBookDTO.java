@@ -27,5 +27,7 @@ public class PublishBookDTO {
 
     private String imageUrl;
 
+    private Integer stock;
+
 
 }

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -22,4 +23,10 @@ public class OrderVO {
     private Integer number;
 
     private Double total;
+
+    private Long OrderNumber;
+
+    private Integer orderStatus;
+
+    private LocalDateTime createTime;
 }

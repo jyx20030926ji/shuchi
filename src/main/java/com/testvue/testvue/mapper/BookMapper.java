@@ -7,6 +7,7 @@ import com.testvue.testvue.annotation.TimeFiledAnnotation;
 import com.testvue.testvue.enity.dto.PageBookDTO;
 import com.testvue.testvue.enity.po.Book;
 import com.testvue.testvue.enity.po.Categories;
+import com.testvue.testvue.enity.po.User;
 import com.testvue.testvue.enity.vo.BookDetailVO;
 import com.testvue.testvue.menu.AopLogMenu;
 import org.apache.ibatis.annotations.Insert;
@@ -56,4 +57,11 @@ public interface BookMapper {
 
     @Select("select * from book_categories")
     List<Categories> getAllCategories();
+
+
+    @Select("select * from book where user_id=#{userId}")
+    List<Book> getBookListByUserId(Long userId);
+
+
+
 }

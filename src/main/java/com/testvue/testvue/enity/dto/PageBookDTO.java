@@ -28,4 +28,6 @@ public class PageBookDTO {
 
     private Integer categoryId;
 
+    private  String searchQuery;
+
 }

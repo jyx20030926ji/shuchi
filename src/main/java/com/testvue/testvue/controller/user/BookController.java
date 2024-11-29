@@ -86,4 +86,11 @@ public class BookController {
         return Result.success(categoriesList);
 
     }
+    @GetMapping
+    public Result<List<Book>> getBookListByUserId()
+    {
+   List<Book> bookList=bookService.getBookListByUserId();
+
+   return Result.success(bookList);
+    }
 }

@@ -2,12 +2,10 @@ package com.testvue.testvue.controller.user;
 
 
 import com.testvue.testvue.Service.PayOrderService;
+import com.testvue.testvue.enity.dto.PayOrderDTO;
 import com.testvue.testvue.enity.po.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user/pays")
@@ -23,6 +21,11 @@ public class PayOrderController {
       payOrderService.payOrders(id);
       return Result.success();
   }
-
+   @PostMapping
+   public Result payOrder(@RequestBody PayOrderDTO payOrderDTO)
+   {
+       payOrderService.payOrder(payOrderDTO);
+       return Result.success();
+   }
 
 }

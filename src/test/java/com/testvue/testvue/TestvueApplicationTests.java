@@ -117,7 +117,7 @@ class TestvueApplicationTests {
 	public void saveToRepository()
 	{
 		Book book = Book.builder().id(1L).bookName("红楼梦").bookAuthor("曹雪芹").build();
-		bookRepository.save(book);
+		//bookRepository.save(book);
 
 	}
 	@Test

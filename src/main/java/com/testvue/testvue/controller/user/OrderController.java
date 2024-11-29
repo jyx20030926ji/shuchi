@@ -1,10 +1,8 @@
 package com.testvue.testvue.controller.user;
 
 import com.testvue.testvue.Service.OrderService;
-import com.testvue.testvue.enity.dto.AddressDTO;
-import com.testvue.testvue.enity.dto.OrderDTO;
-import com.testvue.testvue.enity.dto.OrderPageDTO;
-import com.testvue.testvue.enity.dto.UpdateOrderDTO;
+import com.testvue.testvue.enity.dto.*;
+import com.testvue.testvue.enity.po.OrderDetail;
 import com.testvue.testvue.enity.po.PageResult;
 import com.testvue.testvue.enity.po.Result;
 import com.testvue.testvue.enity.vo.AddressVO;
@@ -100,6 +98,24 @@ public class OrderController {
       return Result.success();
     }
 
+    @GetMapping("/detail")
+    public Result<List<OrderDetail>> getOrderDetailByUserId()
+    {
+      return Result.success(orderService.getOrderDeatilByUserId());
+    }
 
+    @PostMapping("/{orderDetailId}/{status}")
+    public Result updateOrderDetailById(@PathVariable Long orderDetailId ,@PathVariable Integer status)
+    {
+        orderService.updateOrderDetailById(orderDetailId,status);
+        return Result.success();
+    }
+    @PostMapping("/cancelOrderDetail")
+    public Result cancelOrderDetail(@RequestBody OrderDetailCancelDTO orderDetailCancelDTO)
+    {
+        orderService.cancelOrderDetail(orderDetailCancelDTO);
+
+        return Result.success();
+    }
 
 }

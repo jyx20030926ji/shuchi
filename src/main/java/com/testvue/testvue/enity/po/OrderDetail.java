@@ -35,6 +35,18 @@ public class OrderDetail {
 
     private Double bookPrice;
 
+    private Long bookId;
+
+    private Long userId;
+
+    private Long orderedUserId;
+
+    private Integer orderStatus;
+
+
+    private String cancelReason;
+
+     private Long orderNumber;
 
 
 }

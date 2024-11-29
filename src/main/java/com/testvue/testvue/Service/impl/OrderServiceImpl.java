@@ -1,22 +1,20 @@
 package com.testvue.testvue.Service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.github.mustachejava.Code;
 import com.testvue.testvue.Service.OrderService;
 
 import com.testvue.testvue.basecont.BaseCont;
 import com.testvue.testvue.constant.StatusConstant;
 import com.testvue.testvue.enity.dto.OrderDTO;
+import com.testvue.testvue.enity.dto.OrderDetailCancelDTO;
 import com.testvue.testvue.enity.dto.OrderPageDTO;
 import com.testvue.testvue.enity.dto.UpdateOrderDTO;
 import com.testvue.testvue.enity.po.*;
-import com.testvue.testvue.enity.vo.AddressVO;
 import com.testvue.testvue.enity.vo.OrderDetailVO;
 import com.testvue.testvue.enity.vo.OrderVO;
 import com.testvue.testvue.exception.AccountNoExistException;
-import com.testvue.testvue.mapper.AddressMapper;
-import com.testvue.testvue.mapper.BookMapper;
-import com.testvue.testvue.mapper.CartMapper;
-import com.testvue.testvue.mapper.OrderMapper;
+import com.testvue.testvue.mapper.*;
 import com.testvue.testvue.menu.CodeMessageMenu;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +43,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private BookMapper bookMapper;
+    @Autowired
+    private UserMapper userMapper;
+    @Autowired
+    private OrderMessageMapper orderMessageMapper;
 
     /**
      * 插入一条新的订单  判断插入的订单详情数量是否大于库存 若大于则插入订单数据后回滚
@@ -64,6 +66,8 @@ public class OrderServiceImpl implements OrderService {
 
         Long orderNumber = orderMapper.getlatestOrderNumber();
 
+        User my = userMapper.selectById(BaseCont.get().longValue());
+
         if(orderNumber==null)
         {
             order.setOrderNumber(199777L);
@@ -72,7 +76,13 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderNumber(orderNumber+1); }
 
-        order.setAddressId(addressMapper.selectDefault(userId).getId());
+        try {
+            order.setAddressId(addressMapper.selectDefault(userId).getId());
+         }
+       catch (Exception e)
+       {
+           throw new AccountNoExistException(CodeMessageMenu.DEFAULT_ADDRESS_NOT_EXIST);
+       }
 
         order.setUserId(userId);
 
@@ -92,23 +102,36 @@ public class OrderServiceImpl implements OrderService {
         for(ItemCart itemCart:itemCarts)
         {
             Book book = bookMapper.selectById(itemCart.getBookId());
+            User user=userMapper.getUserByBookId(book.getId());
+
             if(book.getStock()<itemCart.getBookNumber())
             {
                 throw new AccountNoExistException(404,itemCart.getBookName()+"库存不足请重试");
             }
              book.setStock(book.getStock()-itemCart.getBookNumber());
              bookMapper.updateById(book);
+             OrderMessage orderMessage=new OrderMessage();
+             orderMessage.setMyselfId(user.getId());
+             orderMessage.setOtherId(my.getId());
+
+              String content="用户"+my.getName()+"购买了你的图书"+book.getBookName();
+              orderMessage.setContent(content);
+              orderMessageMapper.insert(orderMessage);
         }
 
         List<OrderDetail> orderDetails = BeanUtil.copyToList(itemCarts, OrderDetail.class);
 
         for(OrderDetail orderDetail:orderDetails)
         {
+            orderDetail.setOrderStatus(StatusConstant.ONE);
             orderDetail.setOrderId(order.getId());
+            orderDetail.setUserId(BaseCont.get().longValue());
+
+            orderDetail.setOrderNumber(order.getOrderNumber());
+            User user = userMapper.getUserByBookId(orderDetail.getBookId());
+            orderDetail.setOrderedUserId(user.getId());
         }
-
         orderMapper.insetOrderDetail(orderDetails);
-
 
         cartMapper.deleteByCartId(cart.getId());
         cartMapper.deleteCartByUserId(userId);
@@ -146,10 +169,13 @@ public class OrderServiceImpl implements OrderService {
           {
              number=number+orderDetail.getBookNumber();
              total=total+orderDetail.getBookPrice()*orderDetail.getBookNumber();
-            imageUrls.add(orderDetail.getImageUrl());
+             imageUrls.add(orderDetail.getImageUrl());
+
 
           }
-          orderVOS.add(new OrderVO(id,imageUrls,number,total));
+           Order order = orderMapper.getOrderById(id);
+
+           orderVOS.add(new OrderVO(id,imageUrls,number,total,order.getOrderNumber(),order.getOrderStatus(),order.getUpdateTime()));
 
        }
        return new PageResult<>(orderVOS,totalRecords);
@@ -240,6 +266,24 @@ public class OrderServiceImpl implements OrderService {
         order.setCancelReason(updateOrderDTO.getCancelReason());
         order.setCancelTime(LocalDateTime.now());
 
+        List<OrderDetail> orderDetailList = orderMapper.getOrderDetail(order.getId());
+
+        Double total=0.00;
+
+        for(OrderDetail orderDetail:orderDetailList)
+        {
+            total=total+orderDetail.getBookNumber()*orderDetail.getBookPrice();
+            orderDetail.setOrderStatus(updateOrderDTO.getStatus());
+            orderDetail.setCancelReason(updateOrderDTO.getCancelReason());
+            orderMapper.updataOrderDetail(orderDetail);
+        }
+
+        User user = userMapper.selectById(BaseCont.get().longValue());
+
+        user.setBalance(user.getBalance()+total);
+
+        userMapper.update(user);
+
         orderMapper.updateOrderStatus(order);
 
     }
@@ -261,5 +305,80 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
+    @Override
+    public List<OrderDetail> getOrderDeatilByUserId() {
+      return  orderMapper.getOrderDetailByUserId(BaseCont.get().longValue());
+    }
+
+    @Override
+    public void updateOrderDetailById(Long orderDetailId, Integer status) {
+
+       OrderDetail orderDetail=orderMapper.getOrderDetailById(orderDetailId);
+
+       if(orderDetail==null)
+       {
+           throw new AccountNoExistException(CodeMessageMenu.ORDER_DETAIL_NOT_EXIST);
+       }
+       orderDetail.setOrderStatus(status);
+
+       orderMapper.updataOrderDetail(orderDetail);
+
+        List<OrderDetail> orderDetailList = orderMapper.getOrderDetail(orderDetail.getOrderId());
+
+        int size = orderDetailList.size();
+
+        int statusSize=0;
+
+        for(OrderDetail orderDetail1:orderDetailList)
+        {
+            if(orderDetail1.getOrderStatus()==status)
+            {
+                statusSize=statusSize+1;
+            }
+        }
+        if(statusSize==size)
+        {
+            Order order=orderMapper.getOrderById(orderDetail.getOrderId());
+            order.setOrderStatus(status);
+            orderMapper.updateOrderStatus(order);
+        }
+    }
+
+    @Override
+    public void cancelOrderDetail(OrderDetailCancelDTO orderDetailCancelDTO) {
+
+        OrderDetail orderDetail = orderMapper.getOrderDetailById(orderDetailCancelDTO.getOrderDetailId());
+
+        if(orderDetail==null)
+        {
+            throw new AccountNoExistException(CodeMessageMenu.ORDER_DETAIL_NOT_EXIST);
+        }
+        orderDetail.setOrderStatus(orderDetailCancelDTO.getStatus());
+        orderDetail.setCancelReason(orderDetailCancelDTO.getCancelReason());
+        orderMapper.updataOrderDetail(orderDetail);
+
+        List<OrderDetail> orderDetailList = orderMapper.getOrderDetail(orderDetail.getOrderId());
+
+        int size = orderDetailList.size();
+
+        int statusSize=0;
+
+        for(OrderDetail orderDetail1:orderDetailList)
+        {
+            if(orderDetail1.getOrderStatus()==orderDetailCancelDTO.getStatus())
+            {
+                statusSize=statusSize+1;
+            }
+        }
+
+        if(size==statusSize)
+        {
+            Order order = orderMapper.getOrderById(orderDetail.getOrderId());
+            order.setOrderStatus(orderDetailCancelDTO.getStatus());
+            orderMapper.updateOrderStatus(order);
+        }
+
+
+    }
 
 }
