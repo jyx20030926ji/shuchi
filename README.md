@@ -10,9 +10,7 @@
 
 切记yaml文件中的配置换成自己的 主要是阿里云oss和Mysql数据库 QQ邮箱用自己的邮箱名和授权码 redis也是 如果有密码的话填自己的密码
 # application.yml
-logging:
-      level:
-        com.testvue.testvue.mapper: DEBUG
+
 #阿里云对象存储用自己的
 jyx:
   alioss:
@@ -21,29 +19,8 @@ jyx:
     access-key-secret: 
     bucket-name: 
 
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-spring:
-  rabbitmq:
-    password: 123
-    host: 192.168.81.133
-    port: 5672
-    username: root
 
-    virtual-host: /root
-    publisher-returns: true
-    listener:
-      simple:
-        acknowledge-mode: auto
-      direct:
-        acknowledge-mode: auto
 
-  task:
-    scheduling:
-      pool:
-        size: 20
-      thread-name-prefix: Job-Thread-
   data:
     redis:
       host: localhost
@@ -58,8 +35,6 @@ spring:
           min-idle: 2
           max-wait: 10000
 
-
-
   datasource:
     url: jdbc:mysql://localhost:3306/users
     username: root
@@ -70,11 +45,6 @@ spring:
       minimum-idle: 5
       idle-timeout: 30000
       pool-name: HikariCP
-
-
-
-      repositories:
-        enabled: true
 
   mail:
     host: smtp.qq.com
