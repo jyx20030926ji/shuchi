@@ -2,13 +2,13 @@
 logging:
       level:
         com.testvue.testvue.mapper: DEBUG
-
+#阿里云对象存储用自己的
 jyx:
   alioss:
-    endpoint: https://oss-cn-beijing.aliyuncs.com
-    access-key-id: LTAI5t6cwoYrpPbX5xgNeLwg
-    access-key-secret: qxo9u30D8fcutB2m1NmGSBiJRpFet0
-    bucket-name: jyxbookmanger
+    endpoint: 
+    access-key-id: 
+    access-key-secret: 
+    bucket-name: 
 
 mybatis:
   configuration:
@@ -52,7 +52,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/users
     username: root
-    password: 20030926
+    password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10
@@ -68,8 +68,8 @@ spring:
   mail:
     host: smtp.qq.com
     port: 587
-    username: 2736805640@qq.com  # 使用 QQ 邮箱地址
-    password: xldwlxicpweydega   # 使用生成的授权码而不是邮箱密码
+    username:    # 使用 QQ 邮箱地址
+    password:    # 使用生成的授权码而不是邮箱密码
     properties:
       mail:
         smtp:
