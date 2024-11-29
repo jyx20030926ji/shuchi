@@ -9,9 +9,11 @@
 具体功能 自己使用体会，可以自行完善项目。 
 
 切记yaml文件中的配置换成自己的 主要是阿里云oss和Mysql数据库 QQ邮箱用自己的邮箱名和授权码 redis也是 如果有密码的话填自己的密码
+
+
 # application.yml
 
-#阿里云对象存储用自己的
+
 jyx:
   alioss:
     endpoint: 
